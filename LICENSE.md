@@ -1,7 +1,7 @@
 License
 =======
 
-httpd is free software under OpenBSD's ISC-style license.
+mcast-proxy is free software under OpenBSD's ISC-style license.
 
 * httpd is based on OpenBSD relayd
 * Most of the code has been written by Rafael Zalamena <rzalamena@openbsd.org>
