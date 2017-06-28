@@ -11,8 +11,10 @@ about a multicast proxy.
 The mcast-proxy is a less featured multicast routing daemon that is
 mostly used on equipments that face client networks (end users). It is
 mainly used when you don't need a full multicast routing daemon (like
-dvmrpd, mrouted or pim), but you want to use your networks resources
-efficiently. This implementation has the following features:
+[dvmrpd(8)](http://man.openbsd.org/dvmrpd.8),
+[mrouted(8)](http://man.openbsd.org/mrouted.8) or pim),
+but you want to use your networks resources efficiently.
+This implementation has the following features:
 
 * Support IPv4 (IGMPv1/v2) multicast proxy
 * Support IPv6 (MLDv1) multicast proxy
@@ -25,7 +27,7 @@ multicast stack, like:
 * Initial MP support
   Now IPv6 multicast routing code uses the art routing table to store
   the multicast routes. This also means you can see your multicast
-  routes in route(8).
+  routes in [route(8)](http://man.openbsd.org/route.8).
 * Support multiple rdomains
   The interfaces mif (multicast interface) are now domain specific, so
   you can have mif ids duplicated on different rdomains.
@@ -38,7 +40,7 @@ Notes
 * The daemon is not yet pledge()d as there is no support for
   MRT(6)_* setsockopt() calls.
 * IPv6 multicast proxy requires an OpenBSD -current, because of
-  the recent kernel changes and netstat(8).
+  the recent kernel changes and [netstat(1)](http://man.openbsd.org/netstat.1).
 
 Running mcast-proxy
 -------------------
@@ -50,7 +52,7 @@ the following settings:
 
         rcctl enable multicast
 
-* (IPv4 only) allow IGMP packets.
+* Allow IGMP packets (IPv4 only):
   To allow IP options you have to configure your PF traffic pass rule to
   accept IP options. Example: change 'pass' to 'pass allow-opts'.
 
@@ -76,10 +78,10 @@ Design
 
 The daemon code is split in the following file hierarchy:
 
-* mcast-proxy.c: all IGMP/MLD related packet parsing
-* mrt.c: the multicast routing table on userland
-* kroute.c: all kernel interactions
-* util.c: misc functions that did not fit the other files
+* [mcast-proxy.c](usr.sbin/mcast-proxy/mcast-proxy.c): all IGMP/MLD related packet parsing
+* [mrt.c](usr.sbin/mcast-proxy/mrt.c): the multicast routing table on userland
+* [kroute.c](usr.sbin/mcast-proxy/kroute.c): all kernel interactions
+* [util.c](usr.sbin/mcast-proxy/util.c): misc functions that did not fit the other files
 
 Further Reading
 ---------------
