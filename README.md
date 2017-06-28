@@ -86,4 +86,4 @@ Further Reading
 
 * [mcast-proxy.8](mcast-proxy.md)
 * [mcast-proxy.conf.5](mcast-proxy.conf.md)
-* [License][LICENSE.md]
+* [License](LICENSE.md)

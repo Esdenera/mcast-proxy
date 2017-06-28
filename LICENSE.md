@@ -5,7 +5,7 @@ httpd is free software under OpenBSD's ISC-style license.
 
 * httpd is based on OpenBSD relayd
 * Most of the code has been written by Rafael Zalamena <rzalamena@openbsd.org>
-* Designed with input and help from Reyk Floeter <reyk@openbsd.org>
+* With input and help from Reyk Floeter <reyk@openbsd.org>
 * Please refer to the individual source files for other copyright holders!
 
 > Copyright (c) 2017 Rafael Zalamena <rzalamena@openbsd.org>
