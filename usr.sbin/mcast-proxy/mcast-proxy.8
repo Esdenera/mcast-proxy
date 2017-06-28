@@ -1,0 +1,113 @@
+.\"	$OpenBSD:$
+.\"
+.\" Copyright (c) 2017 Rafael Zalamena <rzalamena@openbsd.org>
+.\"
+.\" Permission to use, copy, modify, and/or distribute this software for any
+.\" purpose with or without fee is hereby granted, provided that the above
+.\" copyright notice and this permission notice appear in all copies.
+.\"
+.\" THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
+.\" WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
+.\" MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR
+.\" ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES
+.\" WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN
+.\" ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
+.\" OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+.\"
+.Dd $Mdocdate$
+.Dt MCAST-PROXY 8
+.Os
+.Sh NAME
+.Nm mcast-proxy
+.Nd Multicast Proxy
+.Sh SYNOPSIS
+.Nm
+.Op Fl dnv
+.Op Fl D Ar macro Ns = Ns Ar value
+.Op Fl f Ar file
+.Sh DESCRIPTION
+.Nm
+is a multicast proxy implementation for the Internet Group Management
+Protocol (IGMP) and Multicast Listener Discovery (MLD) protocols.
+It is used on networks that face the client to control the multicast
+traffic based on the interest of the local network and to reduce the
+load by filtering unneeded multicast traffic.
+.Pp
+The options are as follows:
+.Bl -tag -width Ds
+.It Fl D Ar macro Ns = Ns Ar value
+Define
+.Ar macro
+to be set to
+.Ar value
+on the command line.
+Overrides the definition of
+.Ar macro
+in the configuration file.
+.It Fl d
+Do not daemonize.
+If this option is specified,
+.Nm
+will run in the foreground and log to
+.Em stderr .
+.It Fl f Ar file
+Specify an alternative configuration file.
+.It Fl n
+Only check the configuration file for validity.
+.It Fl v
+Produce more verbose output.
+.El
+.Sh FILES
+.Bl -tag -width "/etc/mcast-proxy.confXX"
+.It Pa /etc/mcast-proxy.conf
+Default
+.Nm
+configuration file.
+.El
+.Sh SEE ALSO
+.Xr multicast 4 ,
+.Xr mcast-proxy.conf 5
+.Sh STANDARDS
+.Rs
+.%A S. Deering
+.%D August 1989
+.%R RFC 1112
+.%T Host Extensions for IP Multicasting
+.Re
+.Pp
+.Rs
+.%A W. Fenner
+.%D November 1997
+.%R RFC 2236
+.%T Internet Group Management Protocol, Version 2
+.Re
+.Pp
+.Rs
+.%A M. Christensen
+.%A Thrane & Thrane
+.%A K. Kimball
+.%A F. Solensky
+.%D May 2006
+.%R RFC 4541
+.%T Considerations for Internet Group Management Protocol (IGMP) and Multicast Listener Discovery (MLD) Snooping Switches
+.Re
+.Pp
+.Rs
+.%A B. Fenner
+.%A H. He
+.%A B. Haberman
+.%A H. Sandick
+.%D August 2006
+.%R RFC 4605
+.%T Internet Group Management Protocol (IGMP) / Multicast Listener Discovery (MLD)-Based Multicast Forwarding ("IGMP/MLD Proxying")
+.Re
+.Sh HISTORY
+The
+.Nm
+program first appeared in
+.Ox 6.2 .
+.Sh AUTHORS
+.An -nosplit
+.Nm
+was written by
+.An Rafael Zalamena Aq Mt rzalamena@openbsd.org

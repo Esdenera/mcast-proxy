@@ -1,0 +1,138 @@
+.\"	$OpenBSD:$
+.\"
+.\" Copyright (c) 2017 Rafael Zalamena <rzalamena@openbsd.org>
+.\"
+.\" Permission to use, copy, modify, and distribute this software for any
+.\" purpose with or without fee is hereby granted, provided that the above
+.\" copyright notice and this permission notice appear in all copies.
+.\"
+.\" THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
+.\" WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
+.\" MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR
+.\" ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES
+.\" WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN
+.\" ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
+.\" OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+.\"
+.Dd $Mdocdate$
+.Dt MCAST-PROXY.CONF 5
+.Os
+.Sh NAME
+.Nm mcast-proxy.conf
+.Nd Multicast Proxy configuration file
+.Sh DESCRIPTION
+The
+.Xr mcast-proxy 8
+daemon implements IGMP/MLD proxy for multicast routing.
+.Sh SECTIONS
+The
+.Nm
+config file is divided into three main sections.
+.Bl -tag -width xxxx
+.It Sy Macros
+User-defined variables may be defined and used later, simplifying the
+configuration file.
+.It Sy Global Configuration
+Global settings for
+.Xr mcast-proxy 8 .
+Allows the configuration of globally supported Internet Protocols
+versions: IPv4 and/or IPv6.
+.It Sy Interfaces Configuration
+Interface-specific parameters.
+.El
+.Pp
+Argument names not beginning with a letter, digit, or underscore
+must be quoted.
+.Pp
+Additional configuration files can be included with the
+.Ic include
+keyword, for example:
+.Bd -literal -offset indent
+include "/etc/mcast-proxy.sub.conf"
+.Ed
+.Sh MACROS
+Macros can be defined that will later be expanded in context.
+Macro names must start with a letter, digit, or underscore,
+and may contain any of those characters.
+Macro names may not be reserved words (for example,
+.Ic upstreamif ,
+.Ic interface ,
+or
+.Ic default-threshold ) .
+Macros are not expanded inside quotes.
+.Pp
+For example:
+.Bd -literal -offset indent
+upstreamif="em0"
+default_threshold="1"
+interface $upstreamif {
+	threshold $default_threshold
+	upstream
+}
+.Ed
+.Sh GLOBAL CONFIGURATION
+Here are the settings that can be set globally:
+.Bl -tag -width Ds
+.It Ic ipv4 Pq Ic yes Ns | Ns Ic no
+Determines if the mcast-proxy will be enabled for IPv4.
+This setting is enabled by default.
+.It Ic ipv6 Pq Ic yes Ns | Ns Ic no
+Determines if MLD-proxy will be enabled for IPv6.
+This setting is disabled by default.
+.El
+.Sh INTERFACES CONFIGURATION
+This section will describe the interface multicast configuration
+options.
+An interface is specified by its name.
+.Bd -literal -offset indent
+interface em0 {
+	...
+}
+.Ed
+.Pp
+Interface-specific parameters are listed below.
+.Bl -tag -width Ds
+.It Ic ipv4 Pq Ic yes Ns | Ns Ic no
+Enables or disables IPv4 support in this interface.
+The default value is inherited from the global configuration.
+.It Ic ipv6 Pq Ic yes Ns | Ns Ic no
+Enables or disables IPv6 support in this interface.
+The default value is inherited from the global configuration.
+.It Ic threshold Ar number
+Specify the minimum TTL required in the incoming packets to be
+forwarded (IPv4 only). The default value is 1.
+.It Ic source Ar network Ns / Ns Ar prefix
+Specify an alternate network to receive multicast from.
+By default only multicast traffic coming from the same network of the
+interface will be allowed.
+.It Pq Ic disabled Ns | Ns Ic downstream Ns | Ns Ic upstream
+Configure the interface role in the multicast proxying setup.
+.Ar disabled
+will disable the interface participation,
+.Ar downstream
+mark client facing interfaces and
+.Ar upstream
+mark the interface which will receive the multicast traffic.
+.Pp
+By default all interfaces are
+.Ar disabled .
+.El
+.Sh FILES
+.Bl -tag -width "/etc/mcast-proxy.conf" -compact
+.It Pa /etc/mcast-proxy.conf
+.Xr mcast-proxy 8
+configuration file
+.El
+.Sh SEE ALSO
+.Xr mcast-proxy 8 ,
+.Xr rc.conf.local 8
+.Sh HISTORY
+The
+.Nm
+file format first appeared in
+.Ox 6.2 .
+.Sh AUTHORS
+The
+.Xr mcast-proxy 8
+program was written by
+.An Rafael Zalamena Aq Mt rzalamena@openbsd.org .

@@ -1,0 +1,7 @@
+*~
+*.core
+*.o
+obj
+CVS
+*.core
+*.manlint
