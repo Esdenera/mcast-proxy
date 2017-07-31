@@ -19,18 +19,19 @@
 #ifndef IGMP_PROXY_H
 #define IGMP_PROXY_H
 
+#include <arpa/inet.h>
 #include <sys/queue.h>
 #include <sys/socket.h>
+#include <sys/types.h>
 
 #include <netinet/in.h>
-
 #include <net/if.h>
 
 #include <event.h>
 
 #include "log.h"
 
-#define IGMP_PROXY_USER			"_dhcp"
+#define IGMP_PROXY_USER			"_mcastproxy"
 
 /* RFC 2236 section 8: value definitions. */
 #define IGMP_QUERY_INTERVAL		125 /* 125 seconds. */
