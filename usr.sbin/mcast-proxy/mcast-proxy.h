@@ -16,8 +16,8 @@
  * OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-#ifndef IGMP_PROXY_H
-#define IGMP_PROXY_H
+#ifndef MCAST_PROXY_H
+#define MCAST_PROXY_H
 
 #include <arpa/inet.h>
 #include <sys/queue.h>
@@ -31,7 +31,7 @@
 
 #include "log.h"
 
-#define IGMP_PROXY_USER			"_mcastproxy"
+#define MCAST_PROXY_USER		"_mcastproxy"
 
 /* RFC 2236 section 8: value definitions. */
 #define IGMP_QUERY_INTERVAL		125 /* 125 seconds. */
@@ -211,4 +211,4 @@ sstosin6(struct sockaddr_storage *ss)
 	return (struct sockaddr_in6 *)ss;
 }
 
-#endif /* IGMP_PROXY_H */
+#endif /* MCAST_PROXY_H */

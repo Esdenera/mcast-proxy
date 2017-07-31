@@ -126,7 +126,7 @@ main(int argc, char *argv[])
 		mldsd = open_mld_socket();
 
 	/* Drop privileges. */
-	pw = getpwnam(IGMP_PROXY_USER);
+	pw = getpwnam(MCAST_PROXY_USER);
 	if (pw == NULL)
 		fatal("getpwnam");
 
