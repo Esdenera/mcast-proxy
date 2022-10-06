@@ -360,12 +360,11 @@ int
 build_packet6(uint8_t *p, size_t *plen, struct intf_data *id,
     struct in6_addr *grp, uint8_t type, uint8_t code)
 {
-	struct intf_addr	*ia;
 	struct mld_hdr		*mld;
 
 	*plen = 0;
 
-	if ((ia = intf_ipv6linklayer(id)) == NULL) {
+	if (intf_ipv6linklayer(id) == NULL) {
 		log_debug("%s doesn't have an address", id->id_name);
 		return -1;
 	}
@@ -454,7 +453,6 @@ mcast_mquery6(struct intf_data *id, struct in6_addr *dst,
 int
 kernel_parse(uint8_t *p, size_t plen)
 {
-	struct intf_addr	*ia;
 	struct intf_data	*id;
 	struct ip		*ip = (struct ip *)p;
 
@@ -469,7 +467,7 @@ kernel_parse(uint8_t *p, size_t plen)
 		log_debug("%s: no upstream interface", __func__);
 		return 0;
 	}
-	if ((ia = intf_primaryv4(upstreamif)) == NULL) {
+	if (intf_primaryv4(upstreamif) == NULL) {
 		log_debug("%s: no upstream interface address", __func__);
 		return 0;
 	}
