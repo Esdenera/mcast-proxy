@@ -185,7 +185,7 @@ void
 mrt_timeradd(struct event *ev)
 {
 	unsigned long	 total = IGMP_GROUP_MEMBERSHIP_INTERVAL(
-	    IGMP_ROBUSTNESS_DEFVALUE, IGMP_RESPONSE_INTERVAL);
+	    IGMP_ROBUSTNESS_DEFVALUE, IGMP_QUERY_INTERVAL);
 	struct timeval	 tv;
 
 	if (evtimer_pending(ev, &tv))
