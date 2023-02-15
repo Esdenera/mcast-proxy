@@ -50,7 +50,7 @@ RB_HEAD(mrtree, multicast_route) mrtree = RB_INITIALIZER(&mrtree);
 struct multicast_origin *mo_lookup(struct molist *, struct intf_data *,
     union uaddr *);
 struct multicast_origin *mrt_addorigin(struct multicast_route *,
-    struct intf_data *,union uaddr *);
+    struct intf_data *, union uaddr *);
 void _mrt_delorigin(struct multicast_route *, struct multicast_origin *);
 void mrt_delorigin(struct multicast_route *, struct intf_data *,
     union uaddr *);
@@ -75,7 +75,7 @@ mo_lookup(struct molist *molist, struct intf_data *id, union uaddr *addr)
 
 	LIST_FOREACH(mo, molist, mo_entry) {
 		addrsize = (mo->mo_af == AF_INET) ?
-			sizeof(addr->v4) : sizeof(addr->v6);
+		    sizeof(addr->v4) : sizeof(addr->v6);
 		if (id != NULL && id != mo->mo_id)
 			continue;
 		if (memcmp(addr, &mo->mo_addr, addrsize) != 0)

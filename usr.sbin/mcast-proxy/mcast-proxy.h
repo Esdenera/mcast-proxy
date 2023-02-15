@@ -125,7 +125,7 @@ struct igmpproxy_conf {
 	int			 ic_ipv6;
 };
 
-/* igmp-proxy.c */
+/* mcast-proxy.c */
 extern struct intf_data		*upstreamif;
 extern struct iflist		 iflist;
 extern int			 igmpsd;

@@ -90,7 +90,7 @@ main(int argc, char *argv[])
 		case 'D':
 			if (cmdline_symset(optarg) < 0)
 				log_warnx("could not parse macro definition %s",
-                                    optarg);
+				    optarg);
 			break;
 		case 'd':
 			daemonize = 0;
