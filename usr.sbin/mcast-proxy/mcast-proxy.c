@@ -605,13 +605,6 @@ igmp_recv(int fd, __unused short ev, __unused void *arg)
 		return;
 	}
 
-	/* Don't receive commands from upstream interface. */
-	if (id == upstreamif) {
-		log_debug("%s: ignoring host command on upstream interface",
-		   __func__);
-		return;
-	}
-
 	switch (igmp->igmp_type) {
 	case IGMP_HOST_MEMBERSHIP_QUERY:
 		break;
@@ -624,6 +617,12 @@ igmp_recv(int fd, __unused short ev, __unused void *arg)
 		    &igmp->igmp_group);
 		break;
 	case IGMP_HOST_LEAVE_MESSAGE:
+		if (id == upstreamif) {
+			log_debug("%s: ignoring command on upstream interface",
+			    __func__);
+			return;
+		}
+
 		mrt_remove4(id, &sstosin(&src)->sin_addr, &igmp->igmp_group);
 		break;
 	}
