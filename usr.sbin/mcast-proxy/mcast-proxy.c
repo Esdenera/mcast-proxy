@@ -329,8 +329,8 @@ mcast_mquery4(struct intf_data *id, struct in_addr *dst, struct in_addr *grp)
 	}
 
 	blen = sizeof(b);
-	if (build_packet(b, &blen, id, dst, grp,
-	    IGMP_HOST_MEMBERSHIP_QUERY, IGMP_QUERY_INTERVAL) == -1) {
+	if (build_packet(b, &blen, id, dst, grp, IGMP_HOST_MEMBERSHIP_QUERY,
+	    IGMP_RESPONSE_INTERVAL * IGMP_TIMER_SCALE) == -1) {
 		log_debug("%s: packet build failed", __func__);
 		return -1;
 	}
@@ -791,7 +791,7 @@ send_generalmquery(__unused int sd, short ev, void *arg)
 {
 	struct event			*qtimerev = (struct event *)arg;
 	struct intf_data		*id;
-	struct timeval			 qtv = { IGMP_QUERY_INTERVAL, 0 };
+	struct timeval			 qtv = { IGMP_RESPONSE_INTERVAL, 0 };
 	struct in_addr			 allhostsgrp, zerogrp;
 	struct in6_addr			 allhostsgrp6 =
 	    IN6ADDR_LINKLOCAL_ALLNODES_INIT;
