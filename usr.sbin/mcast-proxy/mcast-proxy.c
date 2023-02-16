@@ -72,7 +72,7 @@ main(int argc, char *argv[])
 	struct passwd	*pw;
 	int		 verbose = 0, daemonize = 1, noaction = 0;
 	int		 ch, intfsd;
-	struct timeval	 qtv;
+	struct timeval	 qtv = { IGMP_STARTUP_QUERY_INTERVAL, 0 };
 	struct event	 igmpev, mldev, intfev, qtimerev;
 	struct event	 hupev, termev, intev;
 
@@ -171,8 +171,6 @@ main(int argc, char *argv[])
 	    intf_dispatch, NULL);
 	event_add(&intfev, NULL);
 
-	qtv.tv_sec = IGMP_STARTUP_QUERY_INTERVAL;
-	qtv.tv_usec = 0;
 	evtimer_set(&qtimerev, send_generalmquery, &qtimerev);
 	evtimer_add(&qtimerev, &qtv);
 
