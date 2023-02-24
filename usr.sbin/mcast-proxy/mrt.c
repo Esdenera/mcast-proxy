@@ -132,6 +132,13 @@ mrt_addorigin(struct multicast_route *mr, struct intf_data *id,
 			    &mr->mr_group, &mr->mr_molist);
 	}
 
+	/* Do not keep upstream as item on the group list. */
+	if (id == upstreamif) {
+		LIST_REMOVE(mo, mo_entry);
+		free(mo);
+		return NULL;
+	}
+
 	return mo;
 }
 
