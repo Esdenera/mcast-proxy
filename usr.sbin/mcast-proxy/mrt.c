@@ -184,15 +184,11 @@ mrt_delorigin(struct multicast_route *mr, struct intf_data *id,
 void
 mrt_timeradd(struct event *ev)
 {
-	unsigned long	 total = IGMP_GROUP_MEMBERSHIP_INTERVAL(
-	    IGMP_ROBUSTNESS_DEFVALUE, IGMP_RESPONSE_INTERVAL);
-	struct timeval	 tv;
+	struct timeval	 tv = { IGMP_GROUP_MEMBERSHIP_INTERVAL, 0 };
 
 	if (evtimer_pending(ev, &tv))
 		evtimer_del(ev);
 
-	tv.tv_sec = total;
-	tv.tv_usec = 0;
 	evtimer_add(ev, &tv);
 }
 

@@ -43,8 +43,8 @@
  * Group membership interval is composed by the following formula:
  * (Robustness * Query_Interval) + Query_Response_Interval.
  */
-#define IGMP_GROUP_MEMBERSHIP_INTERVAL(r, q) \
-	(((r) * (q)) + IGMP_RESPONSE_INTERVAL)
+#define IGMP_GROUP_MEMBERSHIP_INTERVAL ((IGMP_ROBUSTNESS_DEFVALUE * \
+	IGMP_QUERY_INTERVAL) + IGMP_RESPONSE_INTERVAL)
 
 /* Signalize invalid virtual/multicast interface index. */
 #define INVALID_VINDEX ((uint16_t)-1)
