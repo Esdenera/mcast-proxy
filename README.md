@@ -19,7 +19,7 @@ This implementation has the following features:
 * Support IPv4 (IGMPv1/v2) multicast proxy
 * Support IPv6 (MLDv1) multicast proxy
 * Privilege dropping (runs as user)
-* chroot jailing
+* Restricting filesystem access with unveil(2)
 
 The development of this daemon brought improvements to the IPv6
 multicast stack, like:
