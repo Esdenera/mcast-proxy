@@ -49,11 +49,9 @@ RB_HEAD(mrtree, multicast_route) mrtree = RB_INITIALIZER(&mrtree);
 
 struct multicast_origin *mo_lookup(struct molist *, struct intf_data *,
     union uaddr *);
-struct multicast_origin *mrt_addorigin(struct multicast_route *,
-    struct intf_data *,union uaddr *);
+void mrt_addorigin(struct multicast_route *, struct intf_data *, union uaddr *);
 void _mrt_delorigin(struct multicast_route *, struct multicast_origin *);
-void mrt_delorigin(struct multicast_route *, struct intf_data *,
-    union uaddr *);
+void mrt_delorigin(struct multicast_route *, struct intf_data *, union uaddr *);
 
 void mrt_timeradd(struct event *);
 void mrt_timer(int, short, void *);
@@ -87,7 +85,7 @@ mo_lookup(struct molist *molist, struct intf_data *id, union uaddr *addr)
 	return NULL;
 }
 
-struct multicast_origin *
+void
 mrt_addorigin(struct multicast_route *mr, struct intf_data *id,
     union uaddr *addr)
 {
@@ -105,13 +103,13 @@ mrt_addorigin(struct multicast_route *mr, struct intf_data *id,
 				    addr, &mr->mr_group, &mr->mr_molist);
 		}
 		mo->mo_alive = 1;
-		return mo;
+		return;
 	}
 
 	mo = calloc(1, sizeof(*mo));
 	if (mo == NULL) {
 		log_warn("%s: calloc", __func__);
-		return NULL;
+		return;
 	}
 
 	LIST_INSERT_HEAD(&mr->mr_molist, mo, mo_entry);
@@ -132,7 +130,11 @@ mrt_addorigin(struct multicast_route *mr, struct intf_data *id,
 			    &mr->mr_group, &mr->mr_molist);
 	}
 
-	return mo;
+	/* Do not keep upstream as item on the group list. */
+	if (id == upstreamif) {
+		LIST_REMOVE(mo, mo_entry);
+		free(mo);
+	}
 }
 
 void
