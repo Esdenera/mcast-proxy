@@ -208,7 +208,7 @@ usage(void)
 __dead void
 daemon_shutdown(void)
 {
-	struct intf_data	*id;
+	struct intf_data	*id, *idn;
 	int			 error = 0;
 
 	/* Clean up routes to make sure no interface references exist. */
@@ -216,8 +216,7 @@ daemon_shutdown(void)
 	upstreamif = NULL;
 
 	/* Remove all interfaces. */
-	while (!SLIST_EMPTY(&iflist)) {
-		id = SLIST_FIRST(&iflist);
+	SLIST_FOREACH_SAFE(id, &iflist, id_entry, idn) {
 		id_free(id);
 	}
 

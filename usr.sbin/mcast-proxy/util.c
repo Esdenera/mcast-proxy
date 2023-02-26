@@ -286,18 +286,16 @@ id_insert(unsigned short index)
 void
 id_free(struct intf_data *id)
 {
-	struct intf_addr	*ia;
+	struct intf_addr	*ia, *ian;
 
 	if (id == NULL)
 		return;
 
-	while (!SLIST_EMPTY(&id->id_ialist)) {
-		ia = SLIST_FIRST(&id->id_ialist);
+	SLIST_FOREACH_SAFE(ia, &id->id_ialist, ia_entry, ian) {
 		SLIST_REMOVE(&id->id_ialist, ia, intf_addr, ia_entry);
 		free(ia);
 	}
-	while (!SLIST_EMPTY(&id->id_altnetlist)) {
-		ia = SLIST_FIRST(&id->id_altnetlist);
+	SLIST_FOREACH_SAFE(ia, &id->id_altnetlist, ia_entry, ian) {
 		SLIST_REMOVE(&id->id_altnetlist, ia, intf_addr, ia_entry);
 		free(ia);
 	}

@@ -305,7 +305,7 @@ mrt_new(void)
 void
 mrt_free(struct multicast_route *mr)
 {
-	struct multicast_origin	*mo;
+	struct multicast_origin	*mo, *mon;
 	struct timeval		 tv;
 	struct sockaddr_storage	 ss;
 
@@ -315,9 +315,7 @@ mrt_free(struct multicast_route *mr)
 	if (evtimer_pending(&mr->mr_vtimer, &tv))
 		evtimer_del(&mr->mr_vtimer);
 
-	while (!LIST_EMPTY(&mr->mr_molist)) {
-		mo = LIST_FIRST(&mr->mr_molist);
-		LIST_REMOVE(mo, mo_entry);
+	LIST_FOREACH_SAFE(mo, &mr->mr_molist, mo_entry, mon) {
 		_mrt_delorigin(mr, mo);
 	}
 
@@ -337,10 +335,9 @@ mrt_free(struct multicast_route *mr)
 void
 mrt_cleanup(void)
 {
-	struct multicast_route	*mr;
+	struct multicast_route	*mr, *mrn;
 
-	while (!RB_EMPTY(&mrtree)) {
-		mr = RB_ROOT(&mrtree);
+	RB_FOREACH_SAFE(mr, mrtree, &mrtree, mrn) {
 		mrt_free(mr);
 	}
 }
