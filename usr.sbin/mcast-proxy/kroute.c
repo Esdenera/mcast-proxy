@@ -1094,7 +1094,7 @@ void
 if_deladdr(unsigned short ifindex, struct sockaddr *ifa, struct sockaddr *mask)
 {
 	struct intf_data	*id;
-	struct intf_addr	 iac, *ia;
+	struct intf_addr	 iac, *ia, *ian;
 	struct sockaddr_in	*ifa4, *mask4;
 	struct sockaddr_in6	*ifa6, *mask6;
 	int			 regagain = 0;
@@ -1149,7 +1149,7 @@ if_deladdr(unsigned short ifindex, struct sockaddr *ifa, struct sockaddr *mask)
 		return;
 	}
 
-	SLIST_FOREACH(ia, &id->id_ialist, ia_entry) {
+	SLIST_FOREACH_SAFE(ia, &id->id_ialist, ia_entry, ian) {
 		if (ia->ia_af != iac.ia_af ||
 		    ia->ia_prefixlen != iac.ia_prefixlen ||
 		    iacmp(ia, &iac))
