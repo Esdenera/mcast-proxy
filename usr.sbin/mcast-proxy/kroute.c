@@ -820,23 +820,15 @@ void
 intf_dispatch(int sd, __unused short ev, __unused void *arg)
 {
 	ssize_t		 n;
-	static uint8_t	*buf;
+	uint8_t		 buf[rtsd_rcvbuf];
 
-	if (buf == NULL) {
-		buf = malloc(rtsd_rcvbuf);
-		if (buf == NULL)
-			fatal("%s: malloc", __func__);
-	}
+	if ((n = read(sd, buf, rtsd_rcvbuf)) == -1) {
+		if (errno != EAGAIN && errno != EWOULDBLOCK && errno != EINTR)
+			log_warn("%s: read", __func__);
 
-	n = read(sd, buf, rtsd_rcvbuf);
-	if (n == -1) {
-		if (errno == EAGAIN || errno == EWOULDBLOCK ||
-		    errno == EINTR)
-			return;
-
-		log_warn("%s: read", __func__);
 		return;
 	}
+
 	if (n == 0)
 		fatalx("%s: routing socket closed", __func__);
 
