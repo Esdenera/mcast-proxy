@@ -9,7 +9,7 @@ protocol support for network edges. More specifically we're talking
 about a multicast proxy.
 
 The mcast-proxy is a less featured multicast routing daemon that is
-mostly used on equipments that face client networks (end users). It is
+mostly used on equipment that face client networks (end users). It is
 mainly used when you don't need a full multicast routing daemon (like
 [dvmrpd(8)](http://man.openbsd.org/dvmrpd.8),
 [mrouted(8)](http://man.openbsd.org/mrouted.8) or pim),
