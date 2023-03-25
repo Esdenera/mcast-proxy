@@ -130,10 +130,10 @@ main(int argc, char *argv[])
 	if (pw == NULL)
 		fatal("getpwnam");
 
-	if (chroot(pw->pw_dir) == -1)
-		fatal("chroot");
-	if (chdir("/") == -1)
-		fatal("chdir");
+	if (unveil("/", "") == -1)
+		fatal("unveil /");
+	if (unveil(NULL, NULL) == -1)
+		fatal("unveil");
 
 	if (setgroups(1, &pw->pw_gid) ||
 	    setresgid(pw->pw_gid, pw->pw_gid, pw->pw_gid) ||
